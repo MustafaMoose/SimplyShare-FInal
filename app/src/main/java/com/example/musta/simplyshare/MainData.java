@@ -17,7 +17,7 @@ public class MainData {
 //    static Integer[] detailTextArray = { "Stonehenge is a prehistroic", "Stonehenge is a prehistroic", "Stonehenge is a prehistroic", "Stonehenge is a prehistroic", "Stonehenge is a prehistroic" };
 
     static String[] detailWebLink = {
-            "asdad",
+            "asdadcvbcvb",
             "asdasdzcvxcv",
             "asdasdzcvxcv",
             "asdasdzcvxcv",
