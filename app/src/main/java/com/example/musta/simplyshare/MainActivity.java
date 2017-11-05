@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Enables the Send button to go to the Select Files Page
     public void SelectFiles(View view) {
-        Intent intent = new Intent(MainActivity.this, SelectFiles.class);
+        Intent intent = new Intent(view.getContext(), SelectFiles.class);
         startActivity(intent);
     }
 

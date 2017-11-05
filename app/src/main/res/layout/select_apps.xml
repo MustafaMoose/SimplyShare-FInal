@@ -5,17 +5,22 @@
     android:layout_height="match_parent"
     android:background="#1E88E5">
 
-    <!--<ListView-->
-        <!--android:id="@+id/app_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-    <!--</ListView>-->
+    <!--&lt;!&ndash;<ListView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/app_list"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content">&ndash;&gt;-->
+    <!--&lt;!&ndash;</ListView>&ndash;&gt;-->
 
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/main_recycler_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--/>-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/main_recycler_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-
 
 </RelativeLayout>

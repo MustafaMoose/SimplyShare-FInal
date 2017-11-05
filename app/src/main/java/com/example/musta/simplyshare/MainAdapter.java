@@ -1,5 +1,7 @@
 package com.example.musta.simplyshare;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +28,7 @@ class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_main, parent, false);
 
-//        v.setOnClickListener()
+        v.setOnClickListener(ApplicationTab.appTabOnClickListener);
         return new MainViewHolder(v);
     }
 
@@ -39,7 +41,7 @@ class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
         imageIcon.setImageResource(mainData.get(position).getImage());
         textName.setText(mainData.get(position).getName());
-        textInfo.setText(mainData.get(position).getName());
+        textInfo.setText(mainData.get(position).getInfo());
 
     }
 
@@ -61,4 +63,18 @@ class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
         }
     }
+
+//    private class AppTabOnClickListener implements android.view.View.OnClickListener {
+//        private final Context context;
+//
+//        private AppTabOnClickListener(Context c) {
+//            this.context = c;
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            currentItem = recyclerView.getChildLayoutPosition(v);
+//            startActivity(new Intent(getApplicationContext(), ));
+//        }
+//    }
 }
