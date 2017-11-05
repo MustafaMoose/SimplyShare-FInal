@@ -5,6 +5,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.musta.simplyshare.Tabs.ApplicationTab;
+import com.example.musta.simplyshare.Tabs.FilesTab;
+import com.example.musta.simplyshare.Tabs.MusicTab;
+import com.example.musta.simplyshare.Tabs.PicturesTab;
+import com.example.musta.simplyshare.Tabs.VideosTab;
+
 import java.util.List;
 import java.util.Vector;
 

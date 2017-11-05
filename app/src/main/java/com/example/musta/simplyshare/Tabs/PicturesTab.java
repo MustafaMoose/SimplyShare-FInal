@@ -1,10 +1,12 @@
-package com.example.musta.simplyshare;
+package com.example.musta.simplyshare.Tabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.musta.simplyshare.R;
 
 public class PicturesTab extends Fragment {
     @Override

@@ -1,4 +1,4 @@
-package com.example.musta.simplyshare;
+package com.example.musta.simplyshare.Tabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.musta.simplyshare.R;
 
 import java.io.File;
 import java.util.ArrayList;

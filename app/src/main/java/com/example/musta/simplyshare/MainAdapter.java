@@ -1,8 +1,5 @@
 package com.example.musta.simplyshare;
 
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +7,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.musta.simplyshare.Tabs.ApplicationTab;
+
 import java.util.ArrayList;
 
 /**
  * Created by musta on 03-Nov-17.
  */
 
-class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
-    private ArrayList<MainDataDef> mainData;
+//    private ArrayList<MainDataDef> mainData;
+    ArrayList<FileModel> mainData;
 
-    public MainAdapter(ArrayList<MainDataDef> mainData) {
+    public MainAdapter(ArrayList<FileModel> mainData) {
         this.mainData = mainData;
+    }
+
+    public MainAdapter() {
+
     }
 
     @Override
@@ -39,9 +43,14 @@ class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
         TextView textName = holder.textName;
         TextView textInfo = holder.textInfo;
 
-        imageIcon.setImageResource(mainData.get(position).getImage());
-        textName.setText(mainData.get(position).getName());
-        textInfo.setText(mainData.get(position).getInfo());
+        imageIcon.setImageResource(R.drawable.simplyshare);
+        if(mainData.get(position).name.length() > 54)
+            textName.setText(mainData.get(position).name.substring(0,54));
+        else
+            textName.setText(mainData.get(position).name);
+        float fileSize = Float.parseFloat(mainData.get(position).size);
+        fileSize = fileSize/(1024*1024);
+        textInfo.setText(String.format("%.2f", fileSize) + " MB");
 
     }
 
