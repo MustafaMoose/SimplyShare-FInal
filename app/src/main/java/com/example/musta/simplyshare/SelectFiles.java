@@ -6,11 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.musta.simplyshare.Tabs.ApplicationTab;
-import com.example.musta.simplyshare.Tabs.FilesTab;
-import com.example.musta.simplyshare.Tabs.MusicTab;
-import com.example.musta.simplyshare.Tabs.PicturesTab;
-import com.example.musta.simplyshare.Tabs.VideosTab;
+import com.example.musta.simplyshare.ApplicationTab.ApplicationTab;
+import com.example.musta.simplyshare.FilesTab.FileTab;
+import com.example.musta.simplyshare.MusicTab.MusicTab;
+import com.example.musta.simplyshare.PicturesTab.PictureTab;
+import com.example.musta.simplyshare.VideosTab.VideoTab;
 
 import java.util.List;
 import java.util.Vector;
@@ -40,9 +40,9 @@ public class SelectFiles extends AppCompatActivity
         List<Fragment> fragments = new Vector<>();
         fragments.add(Fragment.instantiate(this, ApplicationTab.class.getName()));
         fragments.add(Fragment.instantiate(this, MusicTab.class.getName()));
-        fragments.add(Fragment.instantiate(this, FilesTab.class.getName()));
-        fragments.add(Fragment.instantiate(this, PicturesTab.class.getName()));
-        fragments.add(Fragment.instantiate(this, VideosTab.class.getName()));
+        fragments.add(Fragment.instantiate(this, FileTab.class.getName()));
+        fragments.add(Fragment.instantiate(this, PictureTab.class.getName()));
+        fragments.add(Fragment.instantiate(this, VideoTab.class.getName()));
 
 // Attaching fragments into tabLayout with ViewPager
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragments));

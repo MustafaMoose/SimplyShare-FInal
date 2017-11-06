@@ -1,5 +1,6 @@
-package com.example.musta.simplyshare;
+package com.example.musta.simplyshare.PicturesTab;
 
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,42 +9,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.musta.simplyshare.ApplicationTab.ApplicationTab;
+import com.example.musta.simplyshare.MusicTab.MusicAdapter;
+import com.example.musta.simplyshare.MusicTab.MusicModel;
+import com.example.musta.simplyshare.R;
 
 import java.util.ArrayList;
 
 /**
- * Created by musta on 03-Nov-17.
+ * Created by MA_Laptop on 11/5/2017.
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
+public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.PictureViewHolder> {
+    ArrayList<PictureModel> mainData;
 
-//    private ArrayList<MainDataDef> mainData;
-    ArrayList<FileModel> mainData;
-
-    public MainAdapter(ArrayList<FileModel> mainData) {
+    public PictureAdapter(ArrayList<PictureModel> mainData) {
         this.mainData = mainData;
     }
 
-    public MainAdapter() {
-
-    }
-
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PictureAdapter.PictureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_main, parent, false);
 
-        v.setOnClickListener(ApplicationTab.appTabOnClickListener);
-        return new MainViewHolder(v);
+//        v.setOnClickListener(ApplicationTab.appTabOnClickListener);
+        return new PictureAdapter.PictureViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(MainViewHolder holder, int position) {
-
+    public void onBindViewHolder(PictureViewHolder holder, int position) {
         ImageView imageIcon = holder.imageIcon;
         TextView textName = holder.textName;
         TextView textInfo = holder.textInfo;
 
-        imageIcon.setImageResource(R.drawable.simplyshare);
+//        imageIcon.setImageURI(MediaStore.Images.Thumbnails.getThumbnail());
         if(mainData.get(position).name.length() > 54)
             textName.setText(mainData.get(position).name.substring(0,54));
         else
@@ -51,7 +48,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         float fileSize = Float.parseFloat(mainData.get(position).size);
         fileSize = fileSize/(1024*1024);
         textInfo.setText(String.format("%.2f", fileSize) + " MB");
-
     }
 
     @Override
@@ -59,31 +55,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         return mainData.size();
     }
 
-    public class MainViewHolder extends RecyclerView.ViewHolder {
+    public class PictureViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageIcon;
         public TextView textName;
         public TextView textInfo;
 
-        public MainViewHolder(View v) {
+        public PictureViewHolder(View v) {
             super(v);
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
         }
     }
-
-//    private class AppTabOnClickListener implements android.view.View.OnClickListener {
-//        private final Context context;
-//
-//        private AppTabOnClickListener(Context c) {
-//            this.context = c;
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            currentItem = recyclerView.getChildLayoutPosition(v);
-//            startActivity(new Intent(getApplicationContext(), ));
-//        }
-//    }
 }

@@ -1,8 +1,10 @@
-package com.example.musta.simplyshare;
+package com.example.musta.simplyshare.PicturesTab;
 
-import android.graphics.Bitmap;
+/**
+ * Created by MA_Laptop on 11/5/2017.
+ */
 
-public class FileModel {
+public class PictureModel {
 
     public String id;
     public String name;
@@ -14,11 +16,5 @@ public class FileModel {
     public String toString() {
         return String.format("id: %d, Title: %s, Artist: %s, Path: %s, Date: %d, IconLocation %s",
                 id, name, size, path, date, iconLocation);
-    }
-
-    public FileModel(String id, String name, String size) {
-        this.id = id;
-        this.name = name;
-        this.size = size;
     }
 }

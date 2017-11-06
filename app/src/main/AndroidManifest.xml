@@ -14,14 +14,13 @@
         android:required="true" />
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE"
-        android:required="true"/>
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
 
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -33,29 +32,29 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Activates the Select Files Page -->
         <activity
             android:name=".SelectFiles"
-            android:label="Select Files"/>
+            android:label="Select Files" />
 
         <!-- Activates the Receive Files Page -->
         <activity
             android:name=".ReceiveFiles"
-            android:label="Receive Files"/>
+            android:label="Receive Files" />
 
         <activity android:name=".AppTabDetail">
 
         </activity>
 
         <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="com.mydomain.fileprovider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
+        <!--android:name="android.support.v4.content.FileProvider"-->
+        <!--android:authorities="com.mydomain.fileprovider"-->
+        <!--android:exported="false"-->
+        <!--android:grantUriPermissions="true">-->
         <!--</provider>-->
     </application>
 </manifest>
