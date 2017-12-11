@@ -1,5 +1,6 @@
 package com.example.musta.simplyshare.FilesTab;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.example.musta.simplyshare.ApplicationTab.ApplicationTab;
 import com.example.musta.simplyshare.MusicTab.MusicAdapter;
 import com.example.musta.simplyshare.MusicTab.MusicModel;
 import com.example.musta.simplyshare.R;
+import com.example.musta.simplyshare.SendFiles;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,6 +73,15 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.FileViewHolde
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Intent intent = new Intent(v.getContext(), SendFiles.class);
+                    intent.putExtra("sendingObject", mainData.get(pos));
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

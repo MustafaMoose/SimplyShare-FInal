@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class PopulateData {
 
     public static ArrayList<MusicModel> getMusicInfo(Context context) {
-
         ArrayList<MusicModel> musicInfos = new ArrayList<MusicModel>();
 
         Cursor cursor = context.getContentResolver().query(
@@ -32,6 +31,7 @@ public class PopulateData {
         if (cursor == null) {
             return null;
         }
+        MediaMetadataRetriever mmr;
 
 
         for (int i = 0; i < cursor.getCount(); i++) {
@@ -69,7 +69,8 @@ public class PopulateData {
                 music.date = cursor.getString(cursor
                         .getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_ADDED));
 
-
+                System.out.println("Msusic mime: " + cursor.getString(cursor
+                        .getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE)));
 //                music.album = cursor.getString(cursor
 //                        .getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
 //
@@ -81,10 +82,15 @@ public class PopulateData {
 //                        .getLong(cursor
 //                                .getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
 
-                MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-                mmr.setDataSource(music.path);
-                mmr.release();
+//                mmr = new MediaMetadataRetriever();
+//                mmr.setDataSource(music.path);
+//                mmr.release();
 
+                System.out.println("Music ext: " + music.path);
+                String ext = music.path;
+                ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
+                System.out.println(ext);
+                music.ext = ext;
                 musicInfos.add(music);
             }
         }
@@ -103,13 +109,21 @@ public class PopulateData {
         String selection = MediaStore.Files.FileColumns.MIME_TYPE + "=?";
         String mimeTypePDF = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf");
 //        String mimeTypeDoc = MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc");
-        String[] selectionArgs = new String[]{ mimeTypePDF };
+        String[] selectionArgs = new String[]{mimeTypePDF};
         Cursor allNonMediaFiles = cr.query(uri, projection, selection, selectionArgs, sortOrder);
         ArrayList<FileModel> fileList = new ArrayList<FileModel>();
 
         for (int i = 0; i < allNonMediaFiles.getCount(); i++) {
             allNonMediaFiles.moveToNext();
-            fileList.add(new FileModel(allNonMediaFiles.getString(0), allNonMediaFiles.getString(8), allNonMediaFiles.getString(2)));
+            FileModel fileModel = new FileModel(allNonMediaFiles.getString(0), allNonMediaFiles.getString(8), allNonMediaFiles.getString(2));
+            System.out.println("File details: " + allNonMediaFiles.getString(1));
+            String ext = allNonMediaFiles.getString(1);
+            System.out.println(ext.substring(ext.lastIndexOf(".") + 1).trim());
+            System.out.println(ext);
+            ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
+            fileModel.ext = ext;
+            fileList.add(fileModel);
+
         }
 
         return fileList;
@@ -178,6 +192,11 @@ public class PopulateData {
 //            mmr.setDataSource(picture.path);
 //            mmr.release();
 
+            System.out.println("Picture ext: " + picture.path);
+            String ext = picture.path;
+            System.out.println(ext.substring(ext.lastIndexOf(".") + 1).trim());
+            ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
+            picture.ext = ext;
             pictureInfo.add(picture);
 //            }
         }
@@ -248,6 +267,11 @@ public class PopulateData {
 //            mmr.setDataSource(video.path);
 //            mmr.release();
 
+            System.out.println("Video ext: " + video.path);
+            String ext = video.path;
+            System.out.println(ext.substring(ext.lastIndexOf(".") + 1).trim());
+            ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
+            video.ext = ext;
             videoInfo.add(video);
 //            }
         }

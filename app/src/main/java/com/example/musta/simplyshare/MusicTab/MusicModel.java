@@ -1,13 +1,20 @@
 package com.example.musta.simplyshare.MusicTab;
 
+import com.example.musta.simplyshare.DataModel;
+
+import java.io.Serializable;
+
 /**
  * Created by MA_Laptop on 11/5/2017.
  */
 
-public class MusicModel {
+public class MusicModel implements Serializable{
 
     public String id;
     public String name;
+    public String ext;
+    public byte[] data;
+    public String IPAddress;
     public String size;
     public String path;
     public String date;

@@ -2,10 +2,8 @@ package com.example.musta.simplyshare;
 
 import android.graphics.Bitmap;
 
-public class FileModel {
+public class FileModel extends DataModel {
 
-    public String id;
-    public String name;
     public String size;
     public String path;
     public String date;

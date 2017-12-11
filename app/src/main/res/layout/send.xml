@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:background="#1E88E5">
+    android:gravity="center">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnReceiveConnect"
+        android:id="@+id/btnConnect"
         android:text="Connect"
         android:padding="20dp"
         android:layout_margin="40dp"/>
@@ -30,16 +27,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connect? to ?"
-            android:id="@+id/txtReceiveConnected"/>
+            android:id="@+id/txtConnected"/>
     </RelativeLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnReceiveSend"
+        android:id="@+id/btnSend"
         android:text="Send"
         android:padding="20dp"
         android:layout_margin="40dp"/>
-
 
 </LinearLayout>

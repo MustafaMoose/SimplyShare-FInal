@@ -1,5 +1,7 @@
 package com.example.musta.simplyshare.MusicTab;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.example.musta.simplyshare.ApplicationTab.ApplicationTab;
 import com.example.musta.simplyshare.FileModel;
 import com.example.musta.simplyshare.MainAdapter;
 import com.example.musta.simplyshare.R;
+import com.example.musta.simplyshare.SendFiles;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
     ArrayList<MusicModel> mainData;
+    Context context;
 
     public MusicAdapter(ArrayList<MusicModel> mainData) {
         this.mainData = mainData;
@@ -29,7 +33,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     @Override
     public MusicAdapter.MusicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_main, parent, false);
-
+        context = parent.getContext();
         v.setOnClickListener(ApplicationTab.appTabOnClickListener);
         return new MusicAdapter.MusicViewHolder(v);
     }
@@ -66,6 +70,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Intent intent = new Intent(context, SendFiles.class);
+                    intent.putExtra("sendingObject", mainData.get(pos));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

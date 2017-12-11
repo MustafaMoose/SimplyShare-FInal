@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Enables the Send button to go to the Select Files Page
+    //Enables the SendFiles button to go to the Select Files Page
     public void SelectFiles(View view) {
         Intent intent = new Intent(view.getContext(), SelectFiles.class);
         startActivity(intent);
@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("PERMISSION ALREADY EXISTS");
             populateMusic();
-            populateApplications();
             populateFiles();
             populatePictures();
             populateVideos();
+            populateApplications();
         }
     }
 
@@ -116,11 +116,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ApplicationModel> applicationList = new ArrayList<ApplicationModel>();
         for (ApplicationInfo packageInfo : packages) {
             System.out.println("Installed package :" + packageInfo.loadLabel(getPackageManager()).toString());
-            System.out.println("Source dir : " + packageInfo.sourceDir);
+            System.out.println("Source dir : " + packageInfo.publicSourceDir);
             System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
             File file = new File(packageInfo.publicSourceDir);
             float size = file.length();
-            applicationList.add(new ApplicationModel(packageInfo.loadLabel(getPackageManager()).toString(), String.valueOf(size)));
+            String ext = packageInfo.publicSourceDir;
+            System.out.println(ext.substring(ext.lastIndexOf(".") + 1).trim());
+            ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
+            applicationList.add(new ApplicationModel(packageInfo.loadLabel(getPackageManager()).toString(), String.valueOf(size), packageInfo.dataDir, ext));
 //            packageInfo.loadIcon(pm).
         }
         Gson gson = new Gson();

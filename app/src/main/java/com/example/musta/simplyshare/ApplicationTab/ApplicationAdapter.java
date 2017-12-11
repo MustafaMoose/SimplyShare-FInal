@@ -1,17 +1,16 @@
 package com.example.musta.simplyshare.ApplicationTab;
 
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.musta.simplyshare.FileModel;
-import com.example.musta.simplyshare.MainAdapter;
 import com.example.musta.simplyshare.R;
+import com.example.musta.simplyshare.SendFiles;
 
 import java.util.ArrayList;
 
@@ -46,12 +45,12 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         TextView textInfo = holder.textInfo;
 
 //        imageIcon.setImageDrawable(mainData.get(position).icon);
-        if(mainData.get(position).packageName.length() > 54)
-            textName.setText(mainData.get(position).packageName.substring(0,54));
+        if (mainData.get(position).packageName.length() > 54)
+            textName.setText(mainData.get(position).packageName.substring(0, 54));
         else
             textName.setText(mainData.get(position).packageName);
         float fileSize = Float.parseFloat(mainData.get(position).size);
-        fileSize = fileSize/(1024*1024);
+        fileSize = fileSize / (1024 * 1024);
         textInfo.setText(String.format("%.2f", fileSize) + " MB");
     }
 
@@ -71,17 +70,24 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
-            v.setOnClickListener(new View.OnClickListener(){
+            v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // get position
                     int pos = getAdapterPosition();
-                    v.setBackgroundColor(Color.BLUE);
+                    System.out.println(mainData.get(pos));
+//                    v.setBackgroundColor(Color.BLUE);
                     // check if item still exists
-                    if(pos != RecyclerView.NO_POSITION){
+//                    if(pos != RecyclerView.NO_POSITION){
 //                        RvDataItem clickedDataItem = dataItems.get(pos);
-                        Toast.makeText(v.getContext(), "You clicked " + mainData.get(pos).packageName, Toast.LENGTH_SHORT).show();
-                    }
+//                        Toast.makeText(v.getContext(), "You clicked " + mainData.get(pos).packageName, Toast.LENGTH_SHORT).show();
+
+                    Bundle b = new Bundle();
+//                        b.putSerializable("sendingObject", mainData.get(pos));
+                    Intent intent = new Intent(v.getContext(), SendFiles.class);
+                    intent.putExtra("sendingObject", mainData.get(pos));
+                    v.getContext().startActivity(intent);
+//                    }
                 }
             });
         }
