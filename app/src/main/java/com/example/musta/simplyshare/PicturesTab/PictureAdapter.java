@@ -1,5 +1,6 @@
 package com.example.musta.simplyshare.PicturesTab;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.example.musta.simplyshare.R;
 import com.example.musta.simplyshare.SendFiles;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by MA_Laptop on 11/5/2017.
@@ -23,9 +25,13 @@ import java.util.ArrayList;
 
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.PictureViewHolder> {
     ArrayList<PictureModel> mainData;
+    HashMap<Integer, Boolean> selectedIndexes;
+    private Context context;
 
-    public PictureAdapter(ArrayList<PictureModel> mainData) {
+    public PictureAdapter(ArrayList<PictureModel> mainData, HashMap<Integer, Boolean> selectedIndexes, Context context) {
         this.mainData = mainData;
+        this.context = context;
+        this.selectedIndexes = selectedIndexes;
     }
 
     @Override
@@ -50,6 +56,11 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.PictureV
         float fileSize = Float.parseFloat(mainData.get(position).size);
         fileSize = fileSize/(1024*1024);
         textInfo.setText(String.format("%.2f", fileSize) + " MB");
+        holder.bindSelection(position);
+    }
+
+    public HashMap<Integer, Boolean> saveSeletedIndexes(){
+        return selectedIndexes;
     }
 
     @Override
@@ -62,19 +73,36 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.PictureV
         public ImageView imageIcon;
         public TextView textName;
         public TextView textInfo;
+        private View mainView;
 
         public PictureViewHolder(View v) {
             super(v);
+            mainView = v;
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
-            v.setOnClickListener(new View.OnClickListener() {
+
+        }
+
+        public void bindSelection(final int index){
+            if(selectedIndexes.containsKey(index) && selectedIndexes.get(index)){
+                mainView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_bright));
+            }else{
+                selectedIndexes.put(index, false);
+                mainView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            }
+            mainView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    Intent intent = new Intent(v.getContext(), SendFiles.class);
-                    intent.putExtra("sendingObject", mainData.get(pos));
-                    v.getContext().startActivity(intent);
+                    if(selectedIndexes.containsKey(index) && !selectedIndexes.get(index)){
+                        mainView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_bright));
+                        notifyItemChanged(index);
+                        selectedIndexes.put(index, true);
+                    }else{
+                        mainView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+                        notifyItemChanged(index);
+                        selectedIndexes.put(index, false);
+                    }
                 }
             });
         }

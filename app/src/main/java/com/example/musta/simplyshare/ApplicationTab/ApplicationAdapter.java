@@ -1,8 +1,14 @@
 package com.example.musta.simplyshare.ApplicationTab;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +17,10 @@ import android.widget.TextView;
 
 import com.example.musta.simplyshare.R;
 import com.example.musta.simplyshare.SendFiles;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by MA_Laptop on 11/5/2017.
@@ -21,9 +29,17 @@ import java.util.ArrayList;
 public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder> {
 
     ArrayList<ApplicationModel> mainData;
+    HashMap<Integer, Boolean> selectedIndexes;
+    SharedPreferences sharedPrefs;
+    SharedPreferences.Editor editor;
+    private Context context;
 
-    public ApplicationAdapter(ArrayList<ApplicationModel> mainData) {
+    public ApplicationAdapter(ArrayList<ApplicationModel> mainData, HashMap<Integer, Boolean> selectedIndexes, Context context) {
         this.mainData = mainData;
+        this.context = context;
+        this.selectedIndexes = selectedIndexes;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+
     }
 
     public ApplicationAdapter() {
@@ -45,11 +61,19 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         TextView textInfo = holder.textInfo;
 
 //        imageIcon.setImageDrawable(mainData.get(position).icon);
-        if (mainData.get(position).packageName.length() > 54)
-            textName.setText(mainData.get(position).packageName.substring(0, 54));
+        if (mainData.get(position).name != null && !mainData.get(position).name.isEmpty())
+            textName.setText(mainData.get(position).name);
         else
             textName.setText(mainData.get(position).packageName);
         float fileSize = Float.parseFloat(mainData.get(position).size);
+        Drawable icon = null;
+        try {
+            icon = context.getPackageManager().getApplicationIcon(mainData.get(position).packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        imageIcon.setImageDrawable(icon);
+        holder.bindSelection(position);
         fileSize = fileSize / (1024 * 1024);
         textInfo.setText(String.format("%.2f", fileSize) + " MB");
     }
@@ -59,35 +83,43 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         return mainData.size();
     }
 
+    public HashMap<Integer, Boolean> saveSeletedIndexes(){
+        return selectedIndexes;
+    }
+
     public class ApplicationViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageIcon;
         public TextView textName;
         public TextView textInfo;
-
+        private View mainView;
         public ApplicationViewHolder(View v) {
             super(v);
+            mainView = v;
             this.imageIcon = (ImageView) v.findViewById(R.id.card_image);
             this.textName = (TextView) v.findViewById(R.id.card_name);
             this.textInfo = (TextView) v.findViewById(R.id.card_info);
-            v.setOnClickListener(new View.OnClickListener() {
+        }
+
+        public void bindSelection(final int index){
+            if(selectedIndexes.containsKey(index) && selectedIndexes.get(index)){
+                mainView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_bright));
+            }else{
+                selectedIndexes.put(index, false);
+                mainView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+            }
+            mainView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // get position
-                    int pos = getAdapterPosition();
-                    System.out.println(mainData.get(pos));
-//                    v.setBackgroundColor(Color.BLUE);
-                    // check if item still exists
-//                    if(pos != RecyclerView.NO_POSITION){
-//                        RvDataItem clickedDataItem = dataItems.get(pos);
-//                        Toast.makeText(v.getContext(), "You clicked " + mainData.get(pos).packageName, Toast.LENGTH_SHORT).show();
-
-                    Bundle b = new Bundle();
-//                        b.putSerializable("sendingObject", mainData.get(pos));
-                    Intent intent = new Intent(v.getContext(), SendFiles.class);
-                    intent.putExtra("sendingObject", mainData.get(pos));
-                    v.getContext().startActivity(intent);
-//                    }
+                    if(selectedIndexes.containsKey(index) && !selectedIndexes.get(index)){
+                        mainView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_bright));
+                        notifyItemChanged(index);
+                        selectedIndexes.put(index, true);
+                    }else{
+                        mainView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+                        notifyItemChanged(index);
+                        selectedIndexes.put(index, false);
+                    }
                 }
             });
         }

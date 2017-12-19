@@ -3,6 +3,7 @@ package com.example.musta.simplyshare.ApplicationTab;
 import android.graphics.drawable.Drawable;
 
 import com.example.musta.simplyshare.DataModel;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 
@@ -20,18 +21,28 @@ public class ApplicationModel implements Serializable{
     public String packageName;
     public String size;
     public String path;
-    public Drawable icon;
+    @Expose
+    private Drawable icon;
 
 //    public String toString() {
 //        return String.format("id: %d, Title: %s, Artist: %s, Path: %s, Date: %d, IconLocation %s",
 //                id, name, size, path, date, iconLocation);
 //    }
 
-    public ApplicationModel(String packageName, String size, String path, String ext) {
+    public ApplicationModel(String packageName, String size, String path, String ext, String name) {
         this.packageName = packageName;
         this.size = size;
         this.path = path;
         this.ext = ext;
+        this.name = name;
 //        this.icon = icon;
+    }
+
+    public Drawable getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
     }
 }

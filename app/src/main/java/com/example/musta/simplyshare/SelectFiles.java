@@ -3,11 +3,15 @@ package com.example.musta.simplyshare;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Button;
 
 import com.example.musta.simplyshare.ApplicationTab.ApplicationTab;
 import com.example.musta.simplyshare.FilesTab.FileTab;
+import com.example.musta.simplyshare.Model.File;
 import com.example.musta.simplyshare.MusicTab.MusicTab;
 import com.example.musta.simplyshare.PicturesTab.PictureTab;
 import com.example.musta.simplyshare.VideosTab.VideoTab;
@@ -17,13 +21,14 @@ import java.util.Vector;
 
 public class SelectFiles extends AppCompatActivity
 {
+    private Button share;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Creates a back button
-
+        share = (Button) findViewById(R.id.docked_sendButton);
 
 // Initializing tab and pager views
         TabLayout tabLayout = (TabLayout) findViewById(R.id.my_tab_layout);
@@ -45,7 +50,46 @@ public class SelectFiles extends AppCompatActivity
         fragments.add(Fragment.instantiate(this, VideoTab.class.getName()));
 
 // Attaching fragments into tabLayout with ViewPager
-        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager(), fragments));
+        final SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Fragment fragment = adapter.getItem(position);
+                switch (fragment.getClass().getSimpleName()){
+                    case "ApplicationTab":
+                        ApplicationTab tab = (ApplicationTab) fragment;
+                        tab.saveSelectedIndexes();
+                        break;
+                    case "MusicTab":
+                        MusicTab musictab = (MusicTab) fragment;
+                        musictab.saveSelectedIndexes();
+                        break;
+                    case "FileTab":
+                        FileTab filetab = (FileTab) fragment;
+                        filetab.saveSelectedIndexes();
+                        break;
+                    case "PictureTab":
+                        PictureTab picturetab = (PictureTab) fragment;
+                        picturetab.saveSelectedIndexes();
+                        break;
+                    case "VideoTab":
+                        VideoTab videotab = (VideoTab) fragment;
+                        videotab.saveSelectedIndexes();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.setupWithViewPager(viewPager);
 
     }

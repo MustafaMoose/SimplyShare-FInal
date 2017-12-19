@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +19,15 @@ import com.example.musta.simplyshare.ApplicationTab.ApplicationModel;
 import com.example.musta.simplyshare.MusicTab.MusicModel;
 import com.example.musta.simplyshare.PicturesTab.PictureModel;
 import com.example.musta.simplyshare.VideosTab.VideoModel;
+import com.example.musta.simplyshare.fragments.ReceiveFragment;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,8 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
     //Enables the Receive button to go to the Receive Files Page
     public void ReceiveFiles(View view) {
-        Intent intent = new Intent(MainActivity.this, ReceiveFiles.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(MainActivity.this, ReceiveFiles.class);
+        startActivity(intent);*/
+        findViewById(R.id.container).setVisibility(View.VISIBLE);
+        ReceiveFragment fragment = ReceiveFragment.newInstance();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.container,fragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        findViewById(R.id.container).setVisibility(View.GONE);
     }
 
     public void checkPermissions() {
@@ -123,10 +141,19 @@ public class MainActivity extends AppCompatActivity {
             String ext = packageInfo.publicSourceDir;
             System.out.println(ext.substring(ext.lastIndexOf(".") + 1).trim());
             ext = ext.substring(ext.lastIndexOf(".") + 1).trim();
-            applicationList.add(new ApplicationModel(packageInfo.loadLabel(getPackageManager()).toString(), String.valueOf(size), packageInfo.dataDir, ext));
+            int mask = ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
+            if((packageInfo.flags & mask) == 0) {
+                ApplicationModel appModel = new ApplicationModel(packageInfo.packageName, String.valueOf(size), packageInfo.dataDir, ext, packageInfo.loadLabel(getPackageManager()).toString());
+                applicationList.add(appModel);
+            }
 //            packageInfo.loadIcon(pm).
         }
-        Gson gson = new Gson();
+        Collections.sort(applicationList, new Comparator<ApplicationModel>() {
+            public int compare(ApplicationModel v1, ApplicationModel v2) {
+                return v1.name.compareTo(v2.name);
+            }
+        });
+        Gson gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create();
         String json = gson.toJson(applicationList);
         editor.putString("applicationList", json);
         editor.commit();
