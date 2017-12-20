@@ -6,10 +6,22 @@
     android:layout_height="match_parent"
     android:background="#1E88E5">
 
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:title="SimplyShare"
+        android:background="@color/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"/>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/my_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainToolbar"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/my_view_pager"
         android:layout_width="match_parent"
@@ -32,5 +44,11 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="5dp"/>
         </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>

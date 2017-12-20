@@ -11,6 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
+    <android.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:title="SimplyShare"
+        android:background="@color/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <ImageView
         android:src="@drawable/simplyshare"
         android:layout_width="300dp"

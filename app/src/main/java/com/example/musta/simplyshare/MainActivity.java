@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toolbar;
 import android.view.View;
 
 import com.example.musta.simplyshare.ApplicationTab.ApplicationModel;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.home_page);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         editor = sharedPrefs.edit();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        setActionBar(toolbar);
         checkPermissions();
     }
 

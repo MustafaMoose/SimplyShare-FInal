@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         setContentView(R.layout.splash);
 //        ProgressBar spinner;
 //        spinner = (ProgressBar)findViewById(R.id.pbHeaderProgress);

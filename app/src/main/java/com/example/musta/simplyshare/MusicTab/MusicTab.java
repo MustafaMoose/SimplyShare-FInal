@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.example.musta.simplyshare.ApplicationTab.ApplicationAdapter;
 import com.example.musta.simplyshare.ApplicationTab.ApplicationModel;
+import com.example.musta.simplyshare.FilesTab.FileModel;
 import com.example.musta.simplyshare.PicturesTab.PictureAdapter;
 import com.example.musta.simplyshare.R;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ import java.util.List;
 public class MusicTab extends Fragment {
     RecyclerView recyclerView;
     private MusicAdapter adapter;
+    ArrayList<MusicModel> musicList;
     private HashMap<Integer, Boolean> selectedIndexes;
 
     @Override
@@ -51,11 +53,22 @@ public class MusicTab extends Fragment {
         String json = sharedPrefs.getString("musicList", null);
         Type type = new TypeToken<ArrayList<MusicModel>>() {
         }.getType();
-        ArrayList<MusicModel> musicList = gson.fromJson(json, type);
+
+        musicList = gson.fromJson(json, type);
         adapter = new MusicAdapter(musicList, selectedIndexes, getContext());
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public ArrayList<MusicModel> getSelectedItems(){
+        ArrayList<MusicModel> selectedItems = new ArrayList<>();
+        if(selectedIndexes != null && !selectedIndexes.isEmpty()) {
+            for (Integer i : selectedIndexes.keySet()) {
+                selectedItems.add(this.musicList.get(i));
+            }
+        }
+        return selectedItems;
     }
 
     public void saveSelectedIndexes(){

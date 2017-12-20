@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/black"
                 android:text="abc" />
 
             <TextView
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black"
                 android:text="infoooo" />
 
         </LinearLayout>

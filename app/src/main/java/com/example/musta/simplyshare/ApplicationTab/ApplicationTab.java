@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.musta.simplyshare.AppTabDetail;
+import com.example.musta.simplyshare.Model.App;
 import com.example.musta.simplyshare.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +29,7 @@ public class ApplicationTab extends Fragment {
     ArrayList<ApplicationTab> applicationData;
     private ApplicationAdapter adapter;
     private HashMap<Integer, Boolean> selectedIndexes;
+    private ArrayList<ApplicationModel> applicationList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class ApplicationTab extends Fragment {
         String json = sharedPrefs.getString("applicationList", null);
         Type type = new TypeToken<ArrayList<ApplicationModel>>() {
         }.getType();
-        ArrayList<ApplicationModel> applicationList = gson.fromJson(json, type);
+        applicationList = gson.fromJson(json, type);
         Log.d("FFFF", "onCreateView: "+applicationList.toString());
         adapter = new ApplicationAdapter(applicationList, selectedIndexes, getContext());
         recyclerView.setAdapter(adapter);
@@ -63,6 +65,16 @@ public class ApplicationTab extends Fragment {
             this.selectedIndexes = adapter.saveSeletedIndexes();
             Log.d("MMMM", "saveSelectedIndexes: ");
         }
+    }
+
+    public ArrayList<ApplicationModel> getSelectedItems(){
+        ArrayList<ApplicationModel> selectedItems = new ArrayList<>();
+        if(selectedIndexes != null && !selectedIndexes.isEmpty()) {
+            for (Integer i : selectedIndexes.keySet()) {
+                selectedItems.add(this.applicationList.get(i));
+            }
+        }
+        return selectedItems;
     }
 
     @Override

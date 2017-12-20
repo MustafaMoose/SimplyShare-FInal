@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.musta.simplyshare.Model.Video;
 import com.example.musta.simplyshare.PicturesTab.PictureAdapter;
+import com.example.musta.simplyshare.PicturesTab.PictureModel;
 import com.example.musta.simplyshare.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,6 +27,7 @@ public class VideoTab extends Fragment {
     RecyclerView recyclerView;
     private VideoAdapter adapter;
     private HashMap<Integer, Boolean> selectedIndexes;
+    ArrayList<VideoModel> videoList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +48,22 @@ public class VideoTab extends Fragment {
         String json = sharedPrefs.getString("videoList", null);
         Type type = new TypeToken<ArrayList<VideoModel>>() {
         }.getType();
-        ArrayList<VideoModel> videoList = gson.fromJson(json, type);
+
+        videoList = gson.fromJson(json, type);
         adapter = new VideoAdapter(videoList, selectedIndexes, getContext());
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public ArrayList<VideoModel> getSelectedItems(){
+        ArrayList<VideoModel> selectedItems = new ArrayList<>();
+        if(selectedIndexes != null && !selectedIndexes.isEmpty()) {
+            for (Integer i : selectedIndexes.keySet()) {
+                selectedItems.add(this.videoList.get(i));
+            }
+        }
+        return selectedItems;
     }
 
     public void saveSelectedIndexes(){

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.musta.simplyshare.*;
+import com.example.musta.simplyshare.ApplicationTab.ApplicationModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,6 +24,7 @@ import java.util.HashMap;
 public class FileTab extends Fragment {
     RecyclerView recyclerView;
     private FileAdapter adapter;
+    ArrayList<FileModel> fileList;
     private HashMap<Integer, Boolean> selectedIndexes;
 
     @Override
@@ -44,11 +46,22 @@ public class FileTab extends Fragment {
         String json = sharedPrefs.getString("fileList", null);
         Type type = new TypeToken<ArrayList<FileModel>>() {
         }.getType();
-        ArrayList<FileModel> fileList = gson.fromJson(json, type);
+
+        fileList = gson.fromJson(json, type);
         adapter = new FileAdapter(fileList, selectedIndexes, getContext());
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public ArrayList<FileModel> getSelectedItems(){
+        ArrayList<FileModel> selectedItems = new ArrayList<>();
+        if(selectedIndexes != null && !selectedIndexes.isEmpty()) {
+            for (Integer i : selectedIndexes.keySet()) {
+                selectedItems.add(this.fileList.get(i));
+            }
+        }
+        return selectedItems;
     }
 
     public void saveSelectedIndexes(){
